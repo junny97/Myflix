@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import { Link, useMatch } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-const Nav = styled.nav`
+import { motion, useAnimation, useScroll } from 'framer-motion';
+import { useEffect, useState } from 'react';
+const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
   width: 100%;
   top: 0;
-  background-color: black;
   font-size: 14px;
   padding: 20px 60px;
   color: white;
@@ -39,9 +38,13 @@ const Item = styled.li`
   margin-right: 20px;
   color: ${(props) => props.theme.white.darker};
   transition: color 0.3s ease-in-out;
+  position: relative;
   &:hover {
     color: ${(props) => props.theme.white.lighter};
   }
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 const Search = styled.span`
@@ -58,21 +61,13 @@ const Circle = styled(motion.span)`
   position: absolute;
   width: 5px;
   height: 5px;
-  border-radius: 5px;
+  border-radius: 50%;
   background-color: ${(props) => props.theme.red};
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 `;
-
-const logoVariants = {
-  normal: {
-    fillOpacity: 1,
-  },
-  active: {
-    fillOpacity: [0, 1, 0],
-    transition: {
-      repeat: Infinity,
-    },
-  },
-};
 
 const Input = styled(motion.input)`
   transform-origin: right center;
@@ -87,18 +82,65 @@ const Input = styled(motion.input)`
   border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
+const logoVariants = {
+  normal: {
+    fillOpacity: 1,
+  },
+  active: {
+    fillOpacity: [0, 1, 0],
+    transition: {
+      repeat: Infinity,
+    },
+  },
+};
+
+const navVariants = {
+  top: {
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+  },
+  scroll: {
+    backgroundColor: 'rgba(0, 0, 0, 1)',
+  },
+};
+
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const homeMatch = useMatch('');
   const tvMatch = useMatch('tv');
-  const handleOpenSearch = () => setSearchOpen((prev) => !prev);
+  const inputAnimation = useAnimation();
+  const navAnimation = useAnimation();
+  const { scrollY } = useScroll();
+
+  const handleOpenSearch = () => {
+    if (searchOpen) {
+      inputAnimation.start({
+        scaleX: 0,
+      });
+    } else {
+      inputAnimation.start({
+        scaleX: 1,
+      });
+    }
+    setSearchOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    scrollY.on('change', () => {
+      if (scrollY.get() > 80) {
+        navAnimation.start('scroll');
+      } else {
+        navAnimation.start('top');
+      }
+    });
+  }, [scrollY, navAnimation]);
+
   return (
-    <Nav>
+    <Nav variants={navVariants} animate={navAnimation} initial={'top'}>
       <Col>
         <Logo
           variants={logoVariants}
           whileHover='active'
-          initial='normal'
+          animate='normal'
           xmlns='http://www.w3.org/2000/svg'
           width='1024'
           height='276.742'
@@ -124,7 +166,7 @@ function Header() {
           <motion.svg
             onClick={handleOpenSearch}
             transition={{ type: 'linear' }}
-            animate={{ x: searchOpen ? -180 : 0 }}
+            animate={{ x: searchOpen ? -185 : 0 }}
             fill='currentColor'
             viewBox='0 0 20 20'
             xmlns='http://www.w3.org/2000/svg'
@@ -136,7 +178,8 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
-            animate={{ scaleX: searchOpen ? 1 : 0 }}
+            initial={{ scaleX: 0 }}
+            animate={inputAnimation}
             transition={{ type: 'linear' }}
             placeholder='제목,사람,장르'
           />

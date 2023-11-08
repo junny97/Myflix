@@ -12,14 +12,18 @@ function Home() {
     queryKey: ['movies', 'nowPlaying'],
     queryFn: getMovies,
   });
-
+  const offset = 6;
   const width = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const increaseIndex = () => {
-    if (leaving) return;
-    toggleLeaving();
-    setIndex((prev) => prev + 1);
+    if (data) {
+      if (leaving) return;
+      toggleLeaving();
+      const totalMovies = data.results.length - 1;
+      const maxIndex = Math.floor(totalMovies / offset) - 1;
+      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+    }
   };
 
   const toggleLeaving = () => setLeaving((prev) => !prev);
@@ -46,9 +50,15 @@ function Home() {
                 transition={{ type: 'tween', duration: 1 }}
                 key={index}
               >
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <MovieBox key={i}>{i}</MovieBox>
-                ))}
+                {data?.results
+                  .slice(1)
+                  .slice(offset * index, offset * index + offset)
+                  .map((movie) => (
+                    <MovieBox
+                      key={movie.id}
+                      $bgPhoto={makeImagePath(movie.backdrop_path, 'w500')}
+                    />
+                  ))}
               </Row>
             </AnimatePresence>
           </Slider>
@@ -61,6 +71,7 @@ export default Home;
 
 const Wrapper = styled.div`
   background: black;
+  padding-bottom: 200px;
 `;
 
 const Loader = styled.div`
@@ -105,9 +116,10 @@ const Row = styled(motion.div)`
   width: 100%;
 `;
 
-const MovieBox = styled(motion.div)`
-  background-color: white;
+const MovieBox = styled(motion.div)<{ $bgPhoto: string }>`
+  background-image: url(${(props) => props.$bgPhoto});
+  background-size: cover;
+  background-position: center center;
   height: 200px;
-  color: red;
   font-size: 66px;
 `;

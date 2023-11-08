@@ -58,10 +58,11 @@ button{
 
 }
 body {
-  font-weight: 300;
+  font-weight: 500;
   font-family: 'Source Sans Pro', sans-serif;
   color:${(props) => props.theme.white.darker};
   line-height: 1.2;
+  background-color: black;
 
   overflow-x:hidden
 }

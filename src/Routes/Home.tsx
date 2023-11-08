@@ -98,7 +98,7 @@ const Title = styled.h2`
 `;
 
 const OverView = styled.p`
-  font-size: 36px;
+  font-size: 24px;
   width: 50%;
 `;
 

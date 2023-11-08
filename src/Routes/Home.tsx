@@ -5,6 +5,7 @@ import { IGetMoviesResult } from '../interface';
 import { makeImagePath } from '../utils/utilsFn';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import useWindowDimensions from '../hook/useWindowDimensions';
 
 function Home() {
   const { isLoading, data } = useQuery<IGetMoviesResult>({
@@ -12,6 +13,7 @@ function Home() {
     queryFn: getMovies,
   });
 
+  const width = useWindowDimensions();
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const increaseIndex = () => {
@@ -38,10 +40,9 @@ function Home() {
           <Slider>
             <AnimatePresence initial={false} onExitComplete={toggleLeaving}>
               <Row
-                variants={rowVariants}
-                initial='hidden'
-                animate='visible'
-                exit='exit'
+                initial={{ x: width + 10 }}
+                animate={{ x: 0 }}
+                exit={{ x: -width - 10 }}
                 transition={{ type: 'tween', duration: 1 }}
                 key={index}
               >
@@ -110,15 +111,3 @@ const MovieBox = styled(motion.div)`
   color: red;
   font-size: 66px;
 `;
-
-const rowVariants = {
-  hidden: {
-    x: window.outerWidth + 5,
-  },
-  visible: {
-    x: 0,
-  },
-  exit: {
-    x: -window.outerWidth - 5,
-  },
-};

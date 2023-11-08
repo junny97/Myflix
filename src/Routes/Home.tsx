@@ -56,6 +56,10 @@ function Home() {
                   .map((movie) => (
                     <MovieBox
                       key={movie.id}
+                      whileHover={{ scale: 1.3 }}
+                      initial='normal'
+                      variants={boxVariants}
+                      transition={{ type: 'tween' }}
                       $bgPhoto={makeImagePath(movie.backdrop_path, 'w500')}
                     />
                   ))}
@@ -122,4 +126,25 @@ const MovieBox = styled(motion.div)<{ $bgPhoto: string }>`
   background-position: center center;
   height: 200px;
   font-size: 66px;
+  &:first-child {
+    transform-origin: center left;
+  }
+  &:last-child {
+    transform-origin: center right;
+  }
 `;
+
+const boxVariants = {
+  normal: {
+    scale: 1,
+  },
+  hover: {
+    scale: 1.3,
+    y: -50,
+    transition: {
+      delay: 0.5,
+      duaration: 0.3,
+      type: 'tween',
+    },
+  },
+};

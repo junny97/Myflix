@@ -56,12 +56,16 @@ function Home() {
                   .map((movie) => (
                     <MovieBox
                       key={movie.id}
-                      whileHover={{ scale: 1.3 }}
+                      whileHover='hover'
                       initial='normal'
                       variants={boxVariants}
                       transition={{ type: 'tween' }}
                       $bgPhoto={makeImagePath(movie.backdrop_path, 'w500')}
-                    />
+                    >
+                      <MovieInfo variants={infoVariants}>
+                        <h4>{movie.title}</h4>
+                      </MovieInfo>
+                    </MovieBox>
                   ))}
               </Row>
             </AnimatePresence>
@@ -134,16 +138,42 @@ const MovieBox = styled(motion.div)<{ $bgPhoto: string }>`
   }
 `;
 
+const MovieInfo = styled(motion.div)`
+  padding: 10px;
+  background-color: ${(props) => props.theme.black.lighter};
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+
+  h4 {
+    text-align: center;
+    font-size: 18px;
+  }
+`;
+
 const boxVariants = {
   normal: {
     scale: 1,
   },
   hover: {
+    zIndex: 99,
     scale: 1.3,
     y: -50,
     transition: {
       delay: 0.5,
       duaration: 0.3,
+      type: 'tween',
+    },
+  },
+};
+
+const infoVariants = {
+  hover: {
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+      duaration: 0.1,
       type: 'tween',
     },
   },

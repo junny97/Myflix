@@ -95,7 +95,7 @@ const SliderRow = styled(motion.div)`
     align-items: center;
     width: 80px;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(5px);
     font-size: 40px;
     color: ${({ theme }) => theme.white.darker};

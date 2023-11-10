@@ -4,12 +4,16 @@ import { getMovies } from '../utils/api';
 import { IGetMoviesResult } from '../interface';
 import { makeImagePath } from '../utils/utilsFn';
 import Slider from '../Components/Slider';
+import { useMatch } from 'react-router-dom';
+import Modal from '../Components/Modal';
 
 function Home() {
   const { isLoading, data: movieData } = useQuery<IGetMoviesResult>({
     queryKey: ['movies', 'nowPlaying'],
     queryFn: getMovies,
   });
+
+  const modalMatch = useMatch(`/movies/:movieId`);
 
   return (
     <Wrapper>
@@ -24,6 +28,7 @@ function Home() {
             <OverView>{movieData?.results[0].overview}</OverView>
           </Banner>
           <Slider dataName='현재 상영중인 영화' data={movieData}></Slider>
+          {modalMatch ? <Modal movieData={movieData}></Modal> : null}
         </>
       )}
     </Wrapper>

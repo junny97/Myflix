@@ -63,8 +63,12 @@ body {
   color:${(props) => props.theme.white.darker};
   line-height: 1.2;
   background-color: black;
+  -ms-overflow-style: none;
+  overflow-x:hidden;
+  ::-webkit-scrollbar {
+    display: none;
+}
 
-  overflow-x:hidden
 }
 a {
   text-decoration:none;

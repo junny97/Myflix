@@ -26,6 +26,61 @@ export const getMovies = async () => {
   }
 };
 
+export const getPopMovies = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/movie/popular?language=ko&api_key=${API_KEY}&page=2`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getRateMovies = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=ko&page=5`
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getComeMovies = async () => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=ko`
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getDetailInfo = async (movieId: number) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=ko`
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const similarData = async (movieId: number) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/movie/${movieId}/similar?api_key=${API_KEY}&language=ko`
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getSearch = async (search: string) => {
   try {
     const encodedSearch = encodeURIComponent(search); // 검색어를 URL-safe한 형태로 인코딩

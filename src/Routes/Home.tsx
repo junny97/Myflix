@@ -1,6 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
+
 import styled from 'styled-components';
-import { getMovies } from '../utils/api';
+import {
+  getMovies,
+  getPopMovies,
+  getRateMovies,
+  getComeMovies,
+} from '../utils/api';
 import { IGetMoviesResult } from '../interface';
 import { makeImagePath } from '../utils/utilsFn';
 import Slider from '../Components/Slider';
@@ -13,7 +19,29 @@ function Home() {
     queryFn: getMovies,
   });
 
+  const { data: popData } = useQuery<IGetMoviesResult>({
+    queryKey: ['popMovies', 'popular'],
+    queryFn: getPopMovies,
+  });
+
+  const { data: rateData } = useQuery<IGetMoviesResult>({
+    queryKey: ['rateMovies', 'rate'],
+    queryFn: getRateMovies,
+  });
+
+  const { data: comeData } = useQuery<IGetMoviesResult>({
+    queryKey: ['comeMovies', 'come'],
+    queryFn: getComeMovies,
+  });
+
   const modalMatch = useMatch(`/movies/:movieId`);
+
+  const allData = [
+    ...(movieData?.results ? movieData?.results : []),
+    ...(popData?.results ? popData?.results : []),
+    ...(rateData?.results ? rateData?.results : []),
+    ...(movieData?.results ? movieData?.results : []),
+  ];
 
   return (
     <Wrapper>
@@ -28,7 +56,11 @@ function Home() {
             <OverView>{movieData?.results[0].overview}</OverView>
           </Banner>
           <Slider dataName='현재 상영중인 영화' data={movieData}></Slider>
-          {modalMatch ? <Modal movieData={movieData}></Modal> : null}
+          <Slider dataName='인기 영화 ' data={popData}></Slider>
+          <Slider dataName='평점이 높은 영화 ' data={rateData}></Slider>
+          <Slider dataName='개봉 예정 영화 ' data={comeData}></Slider>
+
+          {modalMatch ? <Modal movieData={allData}></Modal> : null}
         </>
       )}
     </Wrapper>
@@ -38,7 +70,7 @@ export default Home;
 
 const Wrapper = styled.div`
   background: black;
-  padding-bottom: 200px;
+  /* padding-bottom: 200px; */
 `;
 
 const Loader = styled.div`

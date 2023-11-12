@@ -39,7 +39,7 @@ export default function Slider({ data, dataName }: IData) {
           initial='invisible'
           animate='visible'
           exit='exit'
-          transition={{ duration: 1 }}
+          transition={{ duration: 1.1 }}
           key={sliderIdx}
         >
           <div className='slideBtn prev' onClick={decreaseSliderIdx}>

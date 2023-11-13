@@ -47,5 +47,5 @@ export interface IGenre {
 }
 
 export interface IForm {
-  search: string;
+  keyword: string;
 }

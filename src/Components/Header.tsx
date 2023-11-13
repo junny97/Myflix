@@ -120,7 +120,7 @@ function Header() {
   const { register, handleSubmit } = useForm<IForm>();
 
   const onValid = (data: IForm) => {
-    navigate(`/search/${data.search}`);
+    navigate(`/search?keyword=${data.keyword}`);
   };
 
   const handleOpenSearch = () => {
@@ -190,7 +190,7 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
-            {...register('search', { required: true, minLength: 1 })}
+            {...register('keyword', { required: true, minLength: 1 })}
             initial={{ scaleX: 0 }}
             animate={inputAnimation}
             transition={{ type: 'linear' }}

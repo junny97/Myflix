@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useMatch } from 'react-router-dom';
 import { IGetMoviesResult } from '../interface';
 import { makeImagePath } from '../utils/utilsFn';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-
+import Modal from './Modal';
 interface IData {
-  data?: IGetMoviesResult;
-  dataName?: string;
+  data: IGetMoviesResult;
+  dataName: string;
+  listType: string;
+  mediaType: string;
 }
 
-export default function Slider({ data, dataName }: IData) {
+export default function Slider({ data, dataName, mediaType, listType }: IData) {
   const navigate = useNavigate();
   const [sliderIdx, setSliderIdx] = useState(0);
   const [back, setBack] = useState(false);
@@ -25,13 +27,18 @@ export default function Slider({ data, dataName }: IData) {
     setBack(true);
   };
 
-  const handleBoxClicked = (movieId: number) => {
-    navigate(`/movies/${movieId}`);
+  const handleBoxClicked = (
+    movieId: number,
+    mediaType: string,
+    listType: string
+  ) => {
+    navigate(`/${mediaType}/${listType}/${movieId}`);
   };
 
+  const modalMatch = useMatch(`/${mediaType}/${listType}/:movieId`);
   return (
     <SliderCont>
-      <SlideTitle>{dataName}</SlideTitle>
+      <SlideTitle>{dataName}</SlideTitle>{' '}
       <AnimatePresence initial={false} custom={back}>
         <SliderRow
           variants={sliderVars}
@@ -39,7 +46,7 @@ export default function Slider({ data, dataName }: IData) {
           initial='invisible'
           animate='visible'
           exit='exit'
-          transition={{ duration: 1.1 }}
+          transition={{ type: 'tween', duration: 1.1 }}
           key={sliderIdx}
         >
           <div className='slideBtn prev' onClick={decreaseSliderIdx}>
@@ -53,10 +60,12 @@ export default function Slider({ data, dataName }: IData) {
             .slice(sliceNum * sliderIdx, sliceNum * sliderIdx + 6)
             .map((movie) => (
               <SliderItem
+                layoutId={movie.id + '' + listType}
                 key={movie.id}
-                onClick={() => handleBoxClicked(movie.id)}
+                onClick={() => handleBoxClicked(movie.id, mediaType, listType)}
                 variants={slideItemVars}
                 whileHover='hover'
+                transition={{ type: 'tween' }}
                 bgphoto={
                   movie.backdrop_path
                     ? makeImagePath(movie.backdrop_path, 'w500')
@@ -67,6 +76,15 @@ export default function Slider({ data, dataName }: IData) {
               </SliderItem>
             ))}
         </SliderRow>
+      </AnimatePresence>
+      <AnimatePresence>
+        {modalMatch ? (
+          <Modal
+            dataId={Number(modalMatch?.params.movieId)} //모달에 정보 보냄
+            listType={listType}
+            mediaType={mediaType}
+          />
+        ) : null}
       </AnimatePresence>
     </SliderCont>
   );

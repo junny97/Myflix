@@ -1,17 +1,22 @@
 import styled from 'styled-components';
-import { Link, useMatch } from 'react-router-dom';
+import { Link, useMatch, useNavigate } from 'react-router-dom';
 import { motion, useAnimation, useScroll } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { IForm } from '../interface';
 const Nav = styled(motion.nav)`
+  z-index: 99;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: fixed;
   width: 100%;
   top: 0;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 700;
   padding: 20px 60px;
   color: white;
+  user-select: none; //user-select:none 속성은 해당요소의 드레그, 더블클릭, 블럭지정을 막는 역할.
 `;
 
 const Col = styled.div`
@@ -47,7 +52,7 @@ const Item = styled.li`
   flex-direction: column;
 `;
 
-const Search = styled.span`
+const Search = styled.form`
   color: white;
   display: flex;
   align-items: center;
@@ -61,6 +66,7 @@ const Circle = styled(motion.span)`
   position: absolute;
   width: 5px;
   height: 5px;
+
   border-radius: 50%;
   background-color: ${(props) => props.theme.red};
   bottom: -10px;
@@ -105,11 +111,17 @@ const navVariants = {
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
+  const navigate = useNavigate();
   const homeMatch = useMatch('');
   const tvMatch = useMatch('tv');
   const inputAnimation = useAnimation();
   const navAnimation = useAnimation();
   const { scrollY } = useScroll();
+  const { register, handleSubmit } = useForm<IForm>();
+
+  const onValid = (data: IForm) => {
+    navigate(`/search/${data.search}`);
+  };
 
   const handleOpenSearch = () => {
     if (searchOpen) {
@@ -162,7 +174,7 @@ function Header() {
         </Items>
       </Col>
       <Col>
-        <Search>
+        <Search onSubmit={handleSubmit(onValid)}>
           <motion.svg
             onClick={handleOpenSearch}
             transition={{ type: 'linear' }}
@@ -178,6 +190,7 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
+            {...register('search', { required: true, minLength: 1 })}
             initial={{ scaleX: 0 }}
             animate={inputAnimation}
             transition={{ type: 'linear' }}

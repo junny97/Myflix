@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IMovie, IGenre, SmilerDataResults } from '../interface';
+import {
+  IMovie,
+  IGenre,
+  SmilerDataResults,
+  IGetMoviesResult,
+} from '../interface';
 import { useNavigate, useMatch, PathMatch } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { makeImagePath } from '../utils/utilsFn';
@@ -8,41 +13,30 @@ import ReactStars from 'react-stars';
 import { useQuery } from '@tanstack/react-query';
 import { similarData, getDetailInfo } from '../utils/api';
 interface ImovieData {
-  movieData: IMovie[];
+  dataId: number;
+  listType: string;
+  mediaType: string;
 }
 
-export default function Modal({ movieData }: ImovieData) {
-  const modalMatch = useMatch('/movies/:movieId');
+export default function Modal({ dataId, listType, mediaType }: ImovieData) {
+  const modalMatch = useMatch(`/${mediaType}/${listType}/:movieId`);
   const tvMatch = useMatch(`/tvModal/:tvId`);
   const searchMatch = useMatch(`/search/:word/:id`);
   const navigate = useNavigate();
-  const modalImg = modalMatch
-    ? movieData.find(
-        (movieInfo) => String(movieInfo.id) === modalMatch?.params.movieId
-      )
-    : searchMatch
-    ? movieData.find(
-        (movieInfo) => String(movieInfo.id) === searchMatch.params.id
-      )
-    : movieData.find(
-        (movieInfo) => String(movieInfo.id) === tvMatch?.params.tvId
-      );
-
-  const getId = modalImg?.id;
 
   const closeModal = () => {
     modalMatch ? navigate('/') : searchMatch ? navigate(-1) : navigate('/tv');
   };
   //해당 작품 디테일 정보 (런타임, 장르)
-  const { data: detailData } = useQuery<IMovie>({
-    queryKey: ['detailInfo'],
-    queryFn: () => getDetailInfo(getId as number),
+  const { data } = useQuery<IMovie>({
+    queryKey: [listType + dataId, 'detail' + dataId],
+    queryFn: () => getDetailInfo(mediaType, dataId),
   });
 
   // 해당 작품과 비슷한 장르의 작품 정보
   const { data: smilerData } = useQuery<SmilerDataResults>({
-    queryKey: ['similarInfo'],
-    queryFn: () => similarData(getId as number),
+    queryKey: [mediaType + dataId, 'smiler' + dataId],
+    queryFn: () => similarData(mediaType, dataId),
   });
 
   const getGenreToString = (arr: IGenre[]): string => {
@@ -67,31 +61,29 @@ export default function Modal({ movieData }: ImovieData) {
         ></OverLay>
         <MovieModalBox
           key='modal'
-          layoutId={modalImg?.id.toString()}
-          className={modalImg?.backdrop_path ? '' : 'active'}
+          layoutId={modalMatch?.params.movieId + listType}
+          className={data?.backdrop_path ? '' : 'active'}
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
         >
-          <ModalCoverImg bgphoto={makeImagePath(modalImg?.backdrop_path || '')}>
+          <ModalCoverImg bgphoto={makeImagePath(data?.backdrop_path || '')}>
             <ModalClose onClick={closeModal}>X</ModalClose>
 
             <ModalTextBox>
-              <ModalTitle>
-                {modalImg?.title ? modalImg?.title : modalImg?.name}
-              </ModalTitle>
+              <ModalTitle>{data?.title ? data?.title : data?.name}</ModalTitle>
               <ModalSmallTitle>
-                {modalImg?.original_title ? modalImg?.original_title : ''}
+                {data?.original_title ? data?.original_title : ''}
               </ModalSmallTitle>
             </ModalTextBox>
           </ModalCoverImg>
           {/* 대형 이미지 */}
 
           <ModalSmallImg>
-            {modalImg?.poster_path ? (
+            {data?.poster_path ? (
               <img
-                src={makeImagePath(modalImg?.poster_path || '', 'w500')}
+                src={makeImagePath(data?.poster_path || '', 'w500')}
                 alt='poster'
               />
             ) : (
@@ -108,26 +100,22 @@ export default function Modal({ movieData }: ImovieData) {
             <ModalInfoBox>
               <>
                 <ModalInfoItem>
-                  {modalImg?.release_date
-                    ? modalImg?.release_date.slice(0, 4)
-                    : modalImg?.first_air_date?.slice(0, 4)}
+                  {data?.release_date
+                    ? data?.release_date.slice(0, 4)
+                    : data?.first_air_date?.slice(0, 4)}
                 </ModalInfoItem>
                 {/* 개봉일 */}
 
                 <ModalInfoItem>
-                  {detailData?.runtime
-                    ? `${detailData?.runtime}분`
-                    : '정보없음'}
+                  {data?.runtime ? `${data?.runtime}분` : '정보없음'}
                 </ModalInfoItem>
                 {/* 런타임 */}
                 <ModalInfoItem>
-                  {getGenreToString(detailData?.genres || [])
-                    ? getGenreToString(detailData?.genres || []).length > 15
-                      ? getGenreToString(detailData?.genres || []).slice(
-                          0,
-                          15
-                        ) + ' ...'
-                      : getGenreToString(detailData?.genres || [])
+                  {getGenreToString(data?.genres || [])
+                    ? getGenreToString(data?.genres || []).length > 15
+                      ? getGenreToString(data?.genres || []).slice(0, 15) +
+                        ' ...'
+                      : getGenreToString(data?.genres || [])
                     : null}
                 </ModalInfoItem>
                 {/* 장르 */}
@@ -135,24 +123,21 @@ export default function Modal({ movieData }: ImovieData) {
                 <ModalInfoRating>
                   <ReactStars
                     count={5}
-                    value={
-                      modalImg?.vote_average ? modalImg?.vote_average / 2 : 0
-                    }
+                    value={data?.vote_average ? data?.vote_average / 2 : 0}
                     color1='#E6E6E6'
                     color2='#00a7f6'
-                    half
                     size={20}
                     edit={false}
                     className='rating'
                   />
                   <span>
-                    {modalImg?.vote_average.toFixed(1)} (
-                    {modalImg?.vote_count.toLocaleString()})
+                    {data?.vote_average.toFixed(1)} (
+                    {data?.vote_count.toLocaleString()})
                   </span>
                 </ModalInfoRating>
                 {/* 별 rating */}
 
-                <ModalOverview>{modalImg?.overview}</ModalOverview>
+                <ModalOverview>{data?.overview}</ModalOverview>
                 {/* 줄거리 */}
               </>
             </ModalInfoBox>

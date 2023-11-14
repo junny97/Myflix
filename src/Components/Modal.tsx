@@ -34,7 +34,7 @@ export default function Modal({
     if (returnUrl) {
       navigate(returnUrl);
     } else {
-      navigate(`/${menuName}`);
+      navigate(-1);
     }
   };
   //해당 작품 디테일 정보 (런타임, 장르)

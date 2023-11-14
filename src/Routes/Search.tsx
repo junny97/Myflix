@@ -8,9 +8,8 @@ import Modal from '../Components/Modal';
 
 function Search() {
   const location = useLocation();
-  const keyword = location.state ? location.state.key : null;
-  // const keyword = new URLSearchParams(location.search).get('keyword');
-
+  // const keyword = location.state ? location.state.key : null;
+  const keyword = new URLSearchParams(location.search).get('keyword');
   const { isLoading, data } = useQuery<IGetSearchResult>({
     queryKey: ['search', keyword],
     queryFn: () => getSearchData(keyword || ''),

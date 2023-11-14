@@ -25,19 +25,16 @@ export default function Modal({
   listType,
   mediaType,
   menuName,
+  returnUrl,
 }: ImovieData) {
-  const modalMatch = useMatch(`/movie/${listType}/:movieId`);
-  const tvMatch = useMatch(`/tv/${listType}/:movieId`);
-  const searchMatch = useMatch(`/search/${listType}/:movieId`);
+  const modalMatch = useMatch(`/${menuName}/${listType}/:movieId`);
   const navigate = useNavigate();
 
   const closeModal = () => {
-    if (modalMatch) {
-      navigate('/');
-    } else if (searchMatch) {
-      navigate(-1);
-    } else if (tvMatch) {
-      navigate('/tv');
+    if (returnUrl) {
+      navigate(returnUrl);
+    } else {
+      navigate(`/${menuName}`);
     }
   };
   //해당 작품 디테일 정보 (런타임, 장르)

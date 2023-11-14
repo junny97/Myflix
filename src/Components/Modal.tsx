@@ -16,16 +16,29 @@ interface ImovieData {
   dataId: number;
   listType: string;
   mediaType: string;
+  menuName: string;
+  returnUrl?: string;
 }
 
-export default function Modal({ dataId, listType, mediaType }: ImovieData) {
-  const modalMatch = useMatch(`/${mediaType}/${listType}/:movieId`);
-  const tvMatch = useMatch(`/tvModal/:tvId`);
-  const searchMatch = useMatch(`/search/:word/:id`);
+export default function Modal({
+  dataId,
+  listType,
+  mediaType,
+  menuName,
+}: ImovieData) {
+  const modalMatch = useMatch(`/movie/${listType}/:movieId`);
+  const tvMatch = useMatch(`/tv/${listType}/:movieId`);
+  const searchMatch = useMatch(`/search/${listType}/:movieId`);
   const navigate = useNavigate();
 
   const closeModal = () => {
-    modalMatch ? navigate('/') : searchMatch ? navigate(-1) : navigate('/tv');
+    if (modalMatch) {
+      navigate('/');
+    } else if (searchMatch) {
+      navigate(-1);
+    } else if (tvMatch) {
+      navigate('/tv');
+    }
   };
   //해당 작품 디테일 정보 (런타임, 장르)
   const { data } = useQuery<IMovie>({

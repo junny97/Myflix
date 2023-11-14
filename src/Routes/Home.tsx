@@ -48,24 +48,28 @@ function Home() {
             dataName='현재 상영중인 영화'
             data={movieData as IGetMoviesResult}
             mediaType='movie'
+            menuName={'movie'}
             listType={LIST_TYPE[0]}
           ></Slider>
           <Slider
             dataName='인기 영화 '
             data={popData as IGetMoviesResult}
             mediaType='movie'
+            menuName={'movie'}
             listType={LIST_TYPE[1]}
           ></Slider>
           <Slider
             dataName='평점이 높은 영화 '
             data={rateData as IGetMoviesResult}
             mediaType='movie'
+            menuName={'movie'}
             listType={LIST_TYPE[2]}
           ></Slider>
           <Slider
             dataName='개봉 예정 영화 '
             data={comeData as IGetMoviesResult}
             mediaType='movie'
+            menuName={'movie'}
             listType={LIST_TYPE[3]}
           ></Slider>
         </>

@@ -10,10 +10,17 @@ interface IData {
   data: IGetMoviesResult;
   dataName: string;
   listType: string;
+  menuName: string;
   mediaType: string;
 }
 
-export default function Slider({ data, dataName, mediaType, listType }: IData) {
+export default function Slider({
+  data,
+  dataName,
+  menuName,
+  mediaType,
+  listType,
+}: IData) {
   const navigate = useNavigate();
   const [sliderIdx, setSliderIdx] = useState(0);
   const [back, setBack] = useState(false);
@@ -30,7 +37,8 @@ export default function Slider({ data, dataName, mediaType, listType }: IData) {
   const handleBoxClicked = (
     movieId: number,
     mediaType: string,
-    listType: string
+    listType: string,
+    menuName: string
   ) => {
     navigate(`/${mediaType}/${listType}/${movieId}`);
   };
@@ -62,7 +70,9 @@ export default function Slider({ data, dataName, mediaType, listType }: IData) {
               <SliderItem
                 layoutId={movie.id + '' + listType}
                 key={movie.id}
-                onClick={() => handleBoxClicked(movie.id, mediaType, listType)}
+                onClick={() =>
+                  handleBoxClicked(movie.id, mediaType, listType, menuName)
+                }
                 variants={slideItemVars}
                 whileHover='hover'
                 transition={{ type: 'tween' }}
@@ -83,6 +93,7 @@ export default function Slider({ data, dataName, mediaType, listType }: IData) {
             dataId={Number(modalMatch?.params.movieId)} //모달에 정보 보냄
             listType={listType}
             mediaType={mediaType}
+            menuName={menuName}
           />
         ) : null}
       </AnimatePresence>
@@ -92,30 +103,30 @@ export default function Slider({ data, dataName, mediaType, listType }: IData) {
 
 const SliderCont = styled.div`
   position: relative;
-  height: 280px;
-  top: -100px;
-  margin-top: 20px;
-  padding: 0 10px;
+  height: 17.5rem;
+  top: -6.25rem;
+  margin-top: 1.25rem;
+  padding: 0 0.625rem;
 `;
 
 const SliderRow = styled(motion.div)`
   position: absolute;
-  left: 10px;
-  right: 10px;
+  left: 0.625rem;
+  right: 0.625rem;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  gap: 0.625rem;
   .slideBtn {
     position: absolute;
     top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80px;
+    width: 5rem;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(5px);
-    font-size: 40px;
+    backdrop-filter: blur(0.3125rem);
+    font-size: 2.5rem;
     color: ${({ theme }) => theme.white.darker};
     opacity: 0;
     z-index: 99;
@@ -137,8 +148,8 @@ const SliderItem = styled(motion.div)<{ bgphoto: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  padding: 30px;
+  height: 12.5rem;
+  padding: 1.875rem;
   background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
     url(${({ bgphoto }) => bgphoto});
   background-size: cover;
@@ -148,7 +159,7 @@ const SliderItem = styled(motion.div)<{ bgphoto: string }>`
   color: #fff;
   text-align: center;
   word-break: keep-all;
-  font-size: 28px;
+  font-size: 1.75rem;
   cursor: pointer;
   &:first-of-type,
   &:last-of-type {
@@ -164,10 +175,11 @@ const SliderItem = styled(motion.div)<{ bgphoto: string }>`
     transition: all 0.2s ease-in-out;
   }
 `;
+
 const SlideTitle = styled.h2`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   color: ${({ theme }) => theme.white.lighter};
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: bold;
 `;
 

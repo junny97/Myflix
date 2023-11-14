@@ -29,8 +29,8 @@ function App() {
           <Route path='/movie/:listType/:movieId' element={<Home />} />
           <Route path='/tv' element={<Tv />} />
           <Route path='/tv/:listType/:movieId' element={<Tv />} />
-          <Route path='/search/:word' element={<Search />} />
-          <Route path='/search/:word/:id' element={<Search />} />
+          <Route path='/search' element={<Search />} />
+          <Route path='/search/:menuName/:movieId' element={<Search />} />
         </Routes>
       </Router>
     </AppContainer>

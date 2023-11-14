@@ -120,7 +120,9 @@ function Header() {
   const { register, handleSubmit } = useForm<IForm>();
 
   const onValid = (data: IForm) => {
-    navigate(`/search?keyword=${data.keyword}`);
+    navigate(`/search?keyword=${data.keyword}`, {
+      state: { key: data.keyword },
+    });
   };
 
   const handleOpenSearch = () => {

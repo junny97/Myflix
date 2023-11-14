@@ -147,14 +147,13 @@ export interface IGetSearchResult {
   total_results: number;
 }
 
-export const getSearch = async (search: string) => {
+export const getSearchData = async (keyword: string) => {
   try {
-    const encodedSearch = encodeURIComponent(search); // 검색어를 URL-safe한 형태로 인코딩
     const response = await axios.get(
-      `${BASE_URL}/search/multi?api_key=${API_KEY}&query=${encodedSearch}&include_adult=false&language=ko&page=1`
+      `${BASE_URL}/search/multi?language=ko&region=kr&api_key=${API_KEY}&query=${keyword}`
     );
     return response.data;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 };

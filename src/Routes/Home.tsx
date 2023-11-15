@@ -92,26 +92,3 @@ const Loader = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-// const Banner = styled.div<{ $bgPhoto: string }>`
-//   height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   padding-left: 60px;
-//   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-//     url(${(props) => props.$bgPhoto});
-//   background-size: cover;
-//   p {
-//     line-height: 1.5;
-//   }
-// `;
-
-const Title = styled.h2`
-  font-size: 68px;
-`;
-
-const OverView = styled.p`
-  font-size: 24px;
-  width: 50%;
-`;

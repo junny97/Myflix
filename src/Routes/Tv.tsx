@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Slider from '../Components/Slider';
 import { IGetMoviesResult } from '../interface';
-import { makeImagePath } from '../utils/utilsFn';
+import { IMovie } from '../interface';
 import {
   getRateTv,
   getAiringTv,
@@ -11,6 +11,7 @@ import {
   getPopTv,
   TV_LIST_TYPE,
 } from '../utils/api';
+import Banner from '../Components/Banner';
 
 function Tv() {
   const { isLoading, data: rateTvData } = useQuery<IGetMoviesResult>({
@@ -37,11 +38,12 @@ function Tv() {
       ) : (
         <>
           <Banner
-            $bgPhoto={makeImagePath(rateTvData?.results[0].backdrop_path || '')}
-          >
-            <Title>{rateTvData?.results[1].title}</Title>
-            <OverView>{rateTvData?.results[0].overview}</OverView>
-          </Banner>
+            bannerInfo={rateTvData?.results[0] as IMovie}
+            detailSearchUrl={`tv/banner`}
+            requestUrl={'tv'}
+            menuName={'tv'}
+          ></Banner>
+
           <Slider
             dataName='평점이 높은 TV 프로그램'
             data={rateTvData as IGetMoviesResult}
@@ -87,20 +89,6 @@ const Loader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Banner = styled.div<{ $bgPhoto: string }>`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 60px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-    url(${(props) => props.$bgPhoto});
-  background-size: cover;
-  p {
-    line-height: 1.5;
-  }
 `;
 
 const Title = styled.h2`

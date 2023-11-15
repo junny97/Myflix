@@ -8,7 +8,9 @@ import {
   LIST_TYPE,
 } from '../utils/api';
 import { IGetMoviesResult } from '../interface';
+import { IMovie } from '../interface';
 import { makeImagePath } from '../utils/utilsFn';
+import Banner from '../Components/Banner';
 import Slider from '../Components/Slider';
 
 function Home() {
@@ -39,11 +41,11 @@ function Home() {
       ) : (
         <>
           <Banner
-            $bgPhoto={makeImagePath(movieData?.results[0].backdrop_path || '')}
-          >
-            <Title>{movieData?.results[0].title}</Title>
-            <OverView>{movieData?.results[0].overview}</OverView>
-          </Banner>
+            bannerInfo={popData?.results[1] as IMovie}
+            detailSearchUrl={`movie/banner`}
+            requestUrl={'movie'}
+            menuName={'movie'}
+          ></Banner>
           <Slider
             dataName='현재 상영중인 영화'
             data={movieData as IGetMoviesResult}
@@ -91,19 +93,19 @@ const Loader = styled.div`
   align-items: center;
 `;
 
-const Banner = styled.div<{ $bgPhoto: string }>`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 60px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
-    url(${(props) => props.$bgPhoto});
-  background-size: cover;
-  p {
-    line-height: 1.5;
-  }
-`;
+// const Banner = styled.div<{ $bgPhoto: string }>`
+//   height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   padding-left: 60px;
+//   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1)),
+//     url(${(props) => props.$bgPhoto});
+//   background-size: cover;
+//   p {
+//     line-height: 1.5;
+//   }
+// `;
 
 const Title = styled.h2`
   font-size: 68px;

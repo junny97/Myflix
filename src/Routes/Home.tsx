@@ -9,7 +9,6 @@ import {
 } from '../utils/api';
 import { IGetMoviesResult } from '../interface';
 import { IMovie } from '../interface';
-import { makeImagePath } from '../utils/utilsFn';
 import Banner from '../Components/Banner';
 import Slider from '../Components/Slider';
 
@@ -41,7 +40,7 @@ function Home() {
       ) : (
         <>
           <Banner
-            bannerInfo={popData?.results[1] as IMovie}
+            bannerInfo={popData?.results[3] as IMovie}
             detailSearchUrl={`movie/banner`}
             requestUrl={'movie'}
             menuName={'movie'}

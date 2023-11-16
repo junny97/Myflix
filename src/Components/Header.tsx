@@ -165,7 +165,7 @@ function Header() {
         <Items>
           <Item>
             <Link to='/'>
-              Home {homeMatch ? <Circle layoutId='circle' /> : null}
+              Movies {homeMatch ? <Circle layoutId='circle' /> : null}
             </Link>
           </Item>
           <Item>

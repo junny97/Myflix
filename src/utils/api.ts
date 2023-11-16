@@ -111,7 +111,7 @@ export const getPopTv = async () => {
   }
 };
 
-export const getDetailInfo = async (mediaType: string, movieId: number) => {
+export const getDetailData = async (mediaType: string, movieId: number) => {
   try {
     const response = await axios.get(
       `${BASE_URL}/${mediaType}/${movieId}?api_key=${API_KEY}&language=ko`
@@ -122,7 +122,7 @@ export const getDetailInfo = async (mediaType: string, movieId: number) => {
   }
 };
 
-export const similarData = async (mediaType: string, movieId: number) => {
+export const getSimilarData = async (mediaType: string, movieId: number) => {
   try {
     const response = await axios.get(
       `${BASE_URL}/${mediaType}/${movieId}/similar?api_key=${API_KEY}&language=ko`

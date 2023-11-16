@@ -1,17 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-  IMovie,
-  IGenre,
-  SmilerDataResults,
-  IGetMoviesResult,
-} from '../interface';
+import { IMovie, IGenre, SmilerDataResults } from '../interface';
 import { useNavigate, useMatch, PathMatch } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { makeImagePath } from '../utils/utilsFn';
 import ReactStars from 'react-stars';
 import { useQuery } from '@tanstack/react-query';
-import { similarData, getDetailInfo } from '../utils/api';
+import { getSimilarData, getDetailData } from '../utils/api';
 interface ImovieData {
   dataId: number;
   listType: string;
@@ -40,13 +35,13 @@ export default function Modal({
   //해당 작품 디테일 정보 (런타임, 장르)
   const { data } = useQuery<IMovie>({
     queryKey: [listType + dataId, 'detail' + dataId],
-    queryFn: () => getDetailInfo(mediaType, dataId),
+    queryFn: () => getDetailData(mediaType, dataId),
   });
 
   // 해당 작품과 비슷한 장르의 작품 정보
   const { data: smilerData } = useQuery<SmilerDataResults>({
     queryKey: [mediaType + dataId, 'smiler' + dataId],
-    queryFn: () => similarData(mediaType, dataId),
+    queryFn: () => getSimilarData(mediaType, dataId),
   });
 
   const getGenreToString = (arr: IGenre[]): string => {

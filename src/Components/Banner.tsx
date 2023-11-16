@@ -55,7 +55,7 @@ export default function Banner({
             }}
           >
             <span>
-              <i className='fa-regular fa-circle-question'></i> 상세정보
+              <i className='fa-regular fa-circle-question'></i> 상세 정보
             </span>
           </InfoBtn>
         </InfoRating>
@@ -135,10 +135,13 @@ const InfoBtn = styled.button`
   position: absolute;
   top: 3rem;
   left: 0;
-  width: 10rem;
-  height: 150%;
-
+  width: 7rem;
+  height: 170%;
+  border-radius: 8px;
   background-color: ${(props) => props.theme.black.lighter};
+  background-color: rgba(109, 109, 110, 0.7);
+  font-size: 15px;
+  opacity: 0.8;
   span {
     color: white;
     font-weight: 700;

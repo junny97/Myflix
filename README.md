@@ -7,14 +7,6 @@
 | react-query         | Data Fetching 관리                     |
 | react-rotuer-dom    | 라우팅 구현                            |
 | react-hook-form     | 입력 폼 상태&유효성 검사 관리          |
-| react-responsive    | 반응형 구현                            |
-| react-device-detect | 반응형 구현                            |
-| redux               | 상태관리                               |
-| redux-toolkit       | redux 편의성, redux-toolkit thunk 사용 |
-| uuid                | 고유 아이디 생성                       |
-| swiper              | 슬라이더 구현                          |
-| sweetAlert          | alert, confirm 커스텀                  |
-
 <br>
 
 ```js

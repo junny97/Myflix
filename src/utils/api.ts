@@ -1,34 +1,27 @@
 import axios from 'axios';
 
-/*
-TheMovieDB API Key
-https://www.themoviedb.org/settings/api?language=ko
+const API_KEY = process.env.REACT_APP_THEMOVIEDB_API_KEY;
 
-TheMovieDB API Document
-https://developers.themoviedb.org/3/movies/get-now-playing
-
-TheMovieDB Image
-이미지 파일명 앞에 https://image.tmdb.org/t/p/original/ 
-*/
-
-const API_KEY = 'd90f98a8d4a4304af3042e12308b63b5';
-
-const BASE_URL = 'https://api.themoviedb.org/3';
+const customAxios = axios.create({
+  baseURL: 'https://api.themoviedb.org/3',
+  params: {
+    api_key: API_KEY,
+    language: 'ko',
+  },
+});
 
 export const LIST_TYPE = [
-  'nowPlaying', //0
-  'popularMovies', //1
-  'rateMovie', //2
-  'upcomingMovies', //3
+  'nowPlaying',
+  'popularMovies',
+  'rateMovie',
+  'upcomingMovies',
 ]; // 영상 종류
 
 export const TV_LIST_TYPE = ['rateTv', 'PopTv', 'AiringTv', 'AirTv'];
 
 export const getMovies = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/movie/now_playing?language=ko&api_key=${API_KEY}`
-    );
+    const response = await customAxios.get('/movie/now_playing');
     return response.data;
   } catch (error) {
     console.log(error);
@@ -37,9 +30,9 @@ export const getMovies = async () => {
 
 export const getPopMovies = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/movie/popular?language=ko&api_key=${API_KEY}&page=2`
-    );
+    const response = await customAxios.get('/movie/popular', {
+      params: { page: 2 },
+    });
     return response.data;
   } catch (error) {
     console.log(error);
@@ -48,31 +41,26 @@ export const getPopMovies = async () => {
 
 export const getRateMovies = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=ko&page=5`
-    );
+    const response = await customAxios.get('/movie/top_rated', {
+      params: { page: 5 },
+    });
     return response.data;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
-
 export const getComeMovies = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=ko`
-    );
+    const response = await customAxios.get('/movie/upcoming', {});
     return response.data;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
 export const getRateTv = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=ko`
-    );
+    const response = await customAxios.get('/tv/top_rated');
     return response.data;
   } catch (err) {
     console.log(err);
@@ -81,9 +69,7 @@ export const getRateTv = async () => {
 
 export const getAiringTv = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/tv/airing_today?api_key=${API_KEY}&language=ko`
-    );
+    const response = await customAxios.get('/tv/airing_today');
     return response.data;
   } catch (err) {
     console.log(err);
@@ -92,19 +78,20 @@ export const getAiringTv = async () => {
 
 export const getAirTv = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=ko&page=3`
-    );
+    const response = await customAxios.get('/tv/on_the_air', {
+      params: { page: 3 },
+    });
     return response.data;
   } catch (err) {
     console.log(err);
   }
 };
+
 export const getPopTv = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=ko&page=3`
-    );
+    const response = await customAxios.get('/tv/popular', {
+      params: { page: 3 },
+    });
     return response.data;
   } catch (err) {
     console.log(err);
@@ -113,9 +100,7 @@ export const getPopTv = async () => {
 
 export const getDetailData = async (mediaType: string, movieId: number) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/${mediaType}/${movieId}?api_key=${API_KEY}&language=ko`
-    );
+    const response = await customAxios.get(`/${mediaType}/${movieId}`);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -124,9 +109,7 @@ export const getDetailData = async (mediaType: string, movieId: number) => {
 
 export const getSimilarData = async (mediaType: string, movieId: number) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/${mediaType}/${movieId}/similar?api_key=${API_KEY}&language=ko`
-    );
+    const response = await customAxios.get(`/${mediaType}/${movieId}/similar`);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -149,9 +132,9 @@ export interface IGetSearchResult {
 
 export const getSearchData = async (keyword: string) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/search/multi?language=ko&region=kr&api_key=${API_KEY}&query=${keyword}`
-    );
+    const response = await customAxios.get('/search/multi', {
+      params: { query: keyword },
+    });
     return response.data;
   } catch (err) {
     console.log(err);

@@ -81,7 +81,6 @@ export default Tv;
 
 const Wrapper = styled.div`
   background: black;
-  /* padding-bottom: 200px; */
 `;
 
 const Loader = styled.div`
@@ -89,13 +88,4 @@ const Loader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Title = styled.h2`
-  font-size: 68px;
-`;
-
-const OverView = styled.p`
-  font-size: 24px;
-  width: 50%;
 `;

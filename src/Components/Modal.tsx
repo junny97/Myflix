@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IMovie, IGenre, SmilerDataResults } from '../interface';
-import { useNavigate, useMatch, PathMatch } from 'react-router-dom';
+import { useNavigate, useMatch } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { makeImagePath } from '../utils/utilsFn';
 import ReactStars from 'react-stars';

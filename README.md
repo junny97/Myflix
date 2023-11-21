@@ -1,6 +1,6 @@
 # 🍿 MyFlix
 
-**배포 URL** : [MyFlix](myflix-jun.netlify.app/)
+**배포 URL** : [MyFlix](myflix-jun.netlify.app)
 <br>
 
 ### 🙋‍♂️ 프로젝트 소개

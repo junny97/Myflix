@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { IMovie, IGenre, SmilerDataResults } from '../interface';
 import { useNavigate, useMatch } from 'react-router-dom';
@@ -24,7 +24,7 @@ export default function Modal({
 }: ImovieData) {
   const modalMatch = useMatch(`/${menuName}/${listType}/:movieId`);
   const navigate = useNavigate();
-
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const closeModal = () => {
     if (returnUrl) {
       navigate(returnUrl);
@@ -32,6 +32,42 @@ export default function Modal({
       navigate(-1);
     }
   };
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      } else if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+        // 방향키 위아래 입력에 대한 모달 스크롤 이동
+        if (modalRef.current) {
+          event.preventDefault();
+          const scrollAmount = event.key === 'ArrowUp' ? -30 : 30;
+          modalRef.current.scrollTop += scrollAmount;
+        }
+      }
+    },
+    [closeModal]
+  );
+
+  useEffect(() => {
+    // 모달 참조를 사용하여 modalRef에 모달 엘리먼트를 할당
+    if (modalRef.current) {
+      modalRef.current.focus(); // 모달이 열릴 때 모달에 포커스를 주기 위해 추가
+    }
+  }, []);
+
+  useEffect(() => {
+    // 모달이 열렸을 때 body에 스타일 추가하여 스크롤 방지
+    window.addEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+
+    // 컴포넌트가 언마운트될 때 body 스타일 제거하여 스크롤 복구
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'auto';
+    };
+  }, [handleKeyDown]);
+
   //해당 작품 디테일 정보 (런타임, 장르)
   const { data } = useQuery<IMovie>({
     queryKey: [listType + dataId, 'detail' + dataId],

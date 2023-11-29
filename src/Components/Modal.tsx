@@ -25,13 +25,13 @@ export default function Modal({
   const modalMatch = useMatch(`/${menuName}/${listType}/:movieId`);
   const navigate = useNavigate();
   const modalRef = useRef<HTMLDivElement | null>(null);
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     if (returnUrl) {
       navigate(returnUrl);
     } else {
       navigate(-1);
     }
-  };
+  }, [navigate, returnUrl]);
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {

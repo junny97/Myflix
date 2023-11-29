@@ -1,12 +1,14 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import { IMovie, IGenre, SmilerDataResults } from '../interface';
+import { IMovie, IGenre, SmilerDataResults, ICast } from '../interface';
 import { useNavigate, useMatch } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { makeImagePath } from '../utils/utilsFn';
 import ReactStars from 'react-stars';
 import { useQuery } from '@tanstack/react-query';
-import { getSimilarData, getDetailData } from '../utils/api';
+import CastCard from './CastCard';
+import { getSimilarData, getDetailData, getCast } from '../utils/api';
+
 interface ImovieData {
   dataId: number;
   listType: string;
@@ -74,6 +76,11 @@ export default function Modal({
     queryFn: () => getDetailData(mediaType, dataId),
   });
 
+  const { data: castData } = useQuery<ICast[]>({
+    queryKey: [mediaType + dataId, 'cast' + dataId],
+    queryFn: () => getCast(mediaType, dataId),
+  });
+
   // 해당 작품과 비슷한 장르의 작품 정보
   const { data: smilerData } = useQuery<SmilerDataResults>({
     queryKey: [mediaType + dataId, 'smiler' + dataId],
@@ -111,7 +118,11 @@ export default function Modal({
         >
           <ModalCoverImg bgphoto={makeImagePath(data?.backdrop_path || '')}>
             <ModalClose onClick={closeModal}>X</ModalClose>
-
+            <CastCard
+              title='캐스팅 정보'
+              cast={castData!}
+              altText='캐스팅 정보'
+            />
             <ModalTextBox>
               <ModalTitle>{data?.title ? data?.title : data?.name}</ModalTitle>
               <ModalSmallTitle>

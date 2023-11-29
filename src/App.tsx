@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Components/Header';
-import Home from './Routes/Home';
+import Movie from './Routes/Movie';
 import Search from './Routes/Search';
 import Tv from './Routes/Tv';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
@@ -25,8 +25,8 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/movie/:listType/:movieId' element={<Home />} />
+          <Route path='/' element={<Movie />} />
+          <Route path='/movie/:listType/:movieId' element={<Movie />} />
           <Route path='/tv' element={<Tv />} />
           <Route path='/tv/:listType/:movieId' element={<Tv />} />
           <Route path='/search' element={<Search />} />

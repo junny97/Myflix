@@ -98,6 +98,15 @@ export const getPopTv = async () => {
   }
 };
 
+export const getCast = async (mediaType: string, movieId: number) => {
+  try {
+    const response = await customAxios.get(`/${mediaType}/${movieId}/credits`);
+    return response.data.cast;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getDetailData = async (mediaType: string, movieId: number) => {
   try {
     const response = await customAxios.get(`/${mediaType}/${movieId}`);

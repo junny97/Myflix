@@ -28,6 +28,13 @@ export interface IGetMoviesResult {
   total_results: number;
 }
 
+export interface ICast {
+  name: string;
+  original_name: string;
+  profile_path: string;
+  character: string;
+}
+
 export interface SmilerData {
   poster_path: string;
   backdrop_path: string;

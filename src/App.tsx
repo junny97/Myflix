@@ -1,10 +1,13 @@
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './Components/Header';
-import Movie from './Routes/Movie';
-import Search from './Routes/Search';
-import Tv from './Routes/Tv';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import styled from 'styled-components';
+import Header from './Components/Header';
+
+const Movie = lazy(() => import('./Routes/Movie'));
+const Search = lazy(() => import('./Routes/Search'));
+const Tv = lazy(() => import('./Routes/Tv'));
+
 const AppContainer = styled.main`
   font-family: 'Noto Sans KR', sans-serif;
 `;
@@ -24,16 +27,19 @@ function App() {
       </HelmetProvider>
       <Router>
         <Header />
-        <Routes>
-          <Route path='/' element={<Movie />} />
-          <Route path='/movie/:listType/:movieId' element={<Movie />} />
-          <Route path='/tv' element={<Tv />} />
-          <Route path='/tv/:listType/:movieId' element={<Tv />} />
-          <Route path='/search' element={<Search />} />
-          <Route path='/search/:menuName/:movieId' element={<Search />} />
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path='/' element={<Movie />} />
+            <Route path='/movie/:listType/:movieId' element={<Movie />} />
+            <Route path='/tv' element={<Tv />} />
+            <Route path='/tv/:listType/:movieId' element={<Tv />} />
+            <Route path='/search' element={<Search />} />
+            <Route path='/search/:menuName/:movieId' element={<Search />} />
+          </Routes>
+        </Suspense>
       </Router>
     </AppContainer>
   );
 }
+
 export default App;

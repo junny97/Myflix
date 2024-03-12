@@ -24,7 +24,7 @@ const useInfiniteSearchQuery: useInfiniteSearchQueryType = (
 ) => {
   const lang = useRecoilValue(myLangAtom);
 
-  // Fetch search-data
+  // Fetch search data
   const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: [section, keyword, lang],
     queryFn: ({ pageParam = 1 }) => queryFn(keyword!, pageParam, lang),
@@ -36,7 +36,7 @@ const useInfiniteSearchQuery: useInfiniteSearchQueryType = (
     },
     // enabled: Boolean(section && keyword && lang),
   });
-  //   Filter search-results
+  //   Filter search results
   const search = data?.pages.flatMap((page) => page.data.results);
   const count = data?.pages[0].data.total_results;
   const filteredSearch = search?.filter((content, i) => {

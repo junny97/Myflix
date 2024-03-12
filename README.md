@@ -2,7 +2,6 @@
 
 **배포 URL** : https://myflix-jun.netlify.app
 
-
 ### 🙋‍♂️ 프로젝트 소개
 
 인기 OTT 사이트 Netflix UI를 바탕으로 만든 영화 & TV프로그램들의 정보와 평점을 제공하는 사이트입니다.
@@ -26,7 +25,7 @@
 | framer-motion    | 애니메이션 효과               |
 | react-query      | Data Fetching 관리            |
 | react-rotuer-dom | 라우팅 구현                   |
-| react-hook-form  | 입력 폼 상태&유효성 검사 관리 |
+| react-hook-form  | 입력 폼 상태 관리 |
 
 <br>
 
@@ -50,3 +49,27 @@
 | Refactor | 코드 리팩토링 (더 효율적인 코드로 변경 등)(기능은 동일) |
 | Chore    | 라이브러리 설치, 패키지 매니저 수정                     |
 | Docs     | 리드미 등 문서작업 수정                                 |
+
+### Movie 페이지
+
+<img src="gif/Movie.gif" alt="메인페이지"/>
+
+### TV 페이지
+
+<img src="gif/TV.gif" alt="메인페이지"/>
+
+### Search 페이지
+
+<img src="gif/Search.gif" alt="메인페이지"/>
+
+### 주요 기능
+
+- 상단의 nav bar를 통해 Moive Tv show 카테고리를 자유롭게 이동 가능합니다.
+
+- 영화 &TV 프로그램 소개 시 상영중인 작품, 인기 작품, 평점이 높은 작품, 개봉 예정 작품으로 분류하여 원하는 카테고리에 접근하기 쉽게 구현하였습니다.
+
+- React-Query에서 제공하는 **useQuery Hook** 을 사용해 API 요청시 Movie/TV 데이터를 받아옵니다.
+  useQuery Hook을 이용하여 데이터를 요청하면 결과가 자동으로 캐싱되어, 동일한 쿼리가 여러 번 호출될 때 네트워크 요청을 반복하지 않고 첫 번째 호출에서 받은 데이터를 재사용함으로써 성능을 향상시켰습니다.
+
+- 애니매이션 라이브러리 **framer-motion** 를 사용하여 기존 CSS로 애니매이션 작업을 할 떄 보다 직관적이며 가독성이 높은 방식으로 애니메이션을 구현할 수 있었으며 애니매이션 효과 또한 더 현실적이고 자연스럽게 구현할 수 있었습니다.
+  <br/>

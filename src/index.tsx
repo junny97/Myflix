@@ -1,22 +1,25 @@
-import React from 'react';
+import { RecoilRoot } from 'recoil';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from 'styled-components';
-import { theme } from './styles/theme';
-import { GlobalStyle } from './styles/GlobalStyle';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import router from './Router';
+import './lang/i18n';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const client = new QueryClient();
+const client = new QueryClient({
+  defaultOptions: { queries: { retry: 1, staleTime: 60 * 1000 } },
+});
 
 root.render(
-  <QueryClientProvider client={client}>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle></GlobalStyle>
-      <App />
-    </ThemeProvider>
-  </QueryClientProvider>
+  <RecoilRoot>
+    <QueryClientProvider client={client}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider>
+  </RecoilRoot>
 );

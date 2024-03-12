@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IContent } from '../interface';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { getDate, getImgPath, getRating } from '../utils/utilsFn';
-import noPoster from '../../public/assets/noPoster.png';
+import noPoster from '../../src/assets/noPoster.png';
 interface IContentProps {
   section: string;
   content: IContent;

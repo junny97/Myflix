@@ -17,13 +17,13 @@ export default function NotFound() {
       clearInterval(countDown);
     }
     return () => clearInterval(countDown);
-  }, []);
+  }, [count, navigate]);
 
   return (
     <Wrapper>
       <h1>해당 페이지를 찾을 수 없습니다.</h1>
       <p>
-        <strong>{count}초</strong> 뒤 메인 화면으로 이동합니다.
+        <strong>{count}초</strong> 뒤 자동으로 홈 화면으로 이동합니다.
       </p>
     </Wrapper>
   );

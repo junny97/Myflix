@@ -6,7 +6,7 @@ import { makeImagePath } from '../utils/utilsFn';
 import { DefaultMoreButton } from '../styles/common';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { ICast } from '../interface';
-
+import noProfile from '../assets/noProfile.png';
 interface ICastCardProps {
   title: string;
   cast: ICast[];
@@ -27,7 +27,7 @@ export default function CastCard({ title, cast, altText }: ICastCardProps) {
               bg={
                 actor.profile_path
                   ? makeImagePath(actor.profile_path, 'w200')
-                  : '프로필 없음'
+                  : noProfile
               }
             />
             <ActorInfo>

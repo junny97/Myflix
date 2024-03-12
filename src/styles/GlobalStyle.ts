@@ -59,7 +59,7 @@ button{
 body {
   font-weight: 500;
   font-family: 'Source Sans Pro', sans-serif;
-  color:${(props) => props.theme.white.darker};
+  color: ${({ theme }) => theme.white};
   line-height: 1.2;
   background-color: black;
   -ms-overflow-style: none;

@@ -1,142 +1,96 @@
 import axios from 'axios';
-
+import { IVideo } from '../interface';
 const API_KEY = process.env.REACT_APP_THEMOVIEDB_API_KEY;
-
 const customAxios = axios.create({
   baseURL: 'https://api.themoviedb.org/3',
   params: {
     api_key: API_KEY,
-    language: 'ko',
   },
 });
 
-export const LIST_TYPE = [
-  'nowPlaying',
-  'popularMovies',
-  'rateMovie',
-  'upcomingMovies',
-]; // 영상 종류
+const SLICE_INDEX = 12;
 
-export const TV_LIST_TYPE = ['rateTv', 'PopTv', 'AiringTv', 'AirTv'];
+export async function getMovieList(category: string, lang: string) {
+  const response = await customAxios.get(`movie/${category}?language=${lang}`);
 
-export const getMovies = async () => {
-  try {
-    const response = await customAxios.get('/movie/now_playing');
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getPopMovies = async () => {
-  try {
-    const response = await customAxios.get('/movie/popular', {
-      params: { page: 2 },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getRateMovies = async () => {
-  try {
-    const response = await customAxios.get('/movie/top_rated', {
-      params: { page: 5 },
-    });
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const getComeMovies = async () => {
-  try {
-    const response = await customAxios.get('/movie/upcoming', {});
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getRateTv = async () => {
-  try {
-    const response = await customAxios.get('/tv/top_rated');
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getAiringTv = async () => {
-  try {
-    const response = await customAxios.get('/tv/airing_today');
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getAirTv = async () => {
-  try {
-    const response = await customAxios.get('/tv/on_the_air', {
-      params: { page: 3 },
-    });
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getPopTv = async () => {
-  try {
-    const response = await customAxios.get('/tv/popular', {
-      params: { page: 3 },
-    });
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getDetailData = async (mediaType: string, movieId: number) => {
-  try {
-    const response = await customAxios.get(`/${mediaType}/${movieId}`);
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const getSimilarData = async (mediaType: string, movieId: number) => {
-  try {
-    const response = await customAxios.get(`/${mediaType}/${movieId}/similar`);
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export interface ISearch {
-  id: number;
-  poster_path: string;
-  backdrop_path: string;
-  media_type: string;
+  return response.data.results.slice(0, SLICE_INDEX);
 }
 
-export interface IGetSearchResult {
-  page: number;
-  results: ISearch[]; // 영화 데이터 interface의 []
-  total_pages: number;
-  total_results: number;
+export async function getTvList(category: string, lang: string) {
+  const response = await customAxios.get(`tv/${category}?language=${lang}`);
+
+  return response.data.results.slice(0, SLICE_INDEX);
 }
 
-export const getSearchData = async (keyword: string) => {
-  try {
-    const response = await customAxios.get('/search/multi', {
-      params: { query: keyword },
-    });
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
+export async function getDetails(section: string, id: string, lang: string) {
+  const response = await customAxios.get(`${section}/${id}?language=${lang}`);
+
+  return response.data;
+}
+
+export async function getCast(section: string, id: string, lang: string) {
+  const response = await customAxios.get(
+    `${section}/${id}/credits?language=${lang}`
+  );
+
+  return response.data.cast;
+}
+
+export async function getVideos(section: string, id: string, lang: string) {
+  const response = await customAxios.get(
+    `${section}/${id}/videos?language=${lang}`
+  );
+  const youtubeVideos = response.data.results.filter(
+    (video: IVideo) => video.site === 'youtube' || 'Youtube'
+  );
+
+  return youtubeVideos;
+}
+
+export async function getRecommendations(
+  section: string,
+  id: string,
+  lang: string
+) {
+  const response = await customAxios.get(
+    `${section}/${id}/recommendations?language=${lang}`
+  );
+
+  return response.data.results;
+}
+
+export async function getSimilar(section: string, id: string, lang: string) {
+  const response = await customAxios.get(
+    `${section}/${id}/similar?language=${lang}`
+  );
+
+  return response.data.results;
+}
+
+export async function getMovieSearch(
+  keyword: string,
+  pageParam: number,
+  lang: string
+) {
+  console.log(`movie search ${keyword} ${pageParam} 시작`);
+  console.log('pageParam:', pageParam);
+  const params = { page: pageParam, query: keyword, language: lang };
+  const response = await customAxios.get('search/movie', { params });
+
+  return response;
+}
+
+export async function getTvSearch(
+  keyword: string,
+  pageParam: number,
+  lang: string
+) {
+  console.log(`tv search ${keyword} ${pageParam} 시작`);
+
+  const params = { page: pageParam, query: keyword, language: lang };
+  const response = await customAxios.get('search/tv', { params });
+
+  console.log(`tv search ${keyword} ${pageParam} 끝`);
+
+  return response;
+}

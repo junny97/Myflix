@@ -95,6 +95,7 @@ function Slider({ section, title, list, zindex }: ISliderProps) {
 
       <SliderContainer>
         <PrevBtn
+          aria-label='PrevBtn'
           onClick={decreaseIndex}
           disabled={isPrevBtnDisabled}
           zindex={zindex}
@@ -161,7 +162,7 @@ function Slider({ section, title, list, zindex }: ISliderProps) {
           </SliderWrapper>
         </AnimatePresence>
 
-        <NextBtn onClick={increaseIndex} zindex={zindex}>
+        <NextBtn aria-label='NextBtn' onClick={increaseIndex} zindex={zindex}>
           <FontAwesomeIcon icon={faAngleRight} />
         </NextBtn>
       </SliderContainer>

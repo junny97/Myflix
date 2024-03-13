@@ -17,9 +17,11 @@ export default function LanguageSelect() {
   return (
     <Wrapper>
       <Label htmlFor='select'>
+        <span className='a11y-hidden'>globeLogo</span>
         <FontAwesomeIcon icon={faGlobe} />
       </Label>
       <Select id='select' onInput={changeLang} value={lang}>
+        <span className='a11y-hidden'>LanguageSelectButton</span>
         <option value='ko'>한국어</option>
         <option value='en'>English</option>
       </Select>

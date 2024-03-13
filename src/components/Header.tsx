@@ -74,7 +74,7 @@ function Header() {
     <>
       <Nav variants={navVariants} initial='top' animate={navAnimation}>
         <Col>
-          <Link to='/'>
+          <Link to='/' aria-label='NexFlix Logo'>
             <Logo
               xmlns='http://www.w3.org/2000/svg'
               width='1024'
@@ -126,6 +126,7 @@ function Header() {
               icon={faMagnifyingGlass}
               $hide={searchBarOpen}
               onClick={openSearchBar}
+              aria-label='Open Search'
             />
             <SearchInput
               {...register('keyword', { required: true, minLength: 1 })}

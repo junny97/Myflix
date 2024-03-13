@@ -6,7 +6,7 @@ import { makeImagePath, getImgPath } from '../utils/utilsFn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../src/assets/logo.png';
+import logo from '../../src/assets/logo.svg';
 interface IBannerProps {
   section: string;
   content?: IContent;
@@ -94,9 +94,10 @@ const RankingContainer = styled.div`
 const RankingLogo = styled.img`
   width: 1.6vw;
   margin-right: 5px;
-
+  height: 2%.0vw;
   @media (max-width: 1023px) {
     width: 20px;
+    height: 20px;
   }
 `;
 

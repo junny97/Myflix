@@ -42,6 +42,20 @@ export default function Modal() {
     navigate(-1);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isModalOpen && e.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
+
   const [stopBodyScroll, restoreBodyScroll] = useBodyScroll();
   useEffect(() => {
     isModalOpen ? stopBodyScroll() : restoreBodyScroll();

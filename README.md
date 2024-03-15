@@ -1,6 +1,6 @@
 # 🍿 MyFlix
 
-**배포 URL** : myflix-jun.vercel.app
+**배포 URL** : https://myflix-jun.vercel.app
 
 ### 🙋‍♂️ 프로젝트 소개
 
@@ -19,13 +19,13 @@
 
 ### ⛓ node_modules
 
-| 모듈명           | 용도                          |
-| ---------------- | ----------------------------- |
-| axios            | 서버 통신                     |
-| framer-motion    | 애니메이션 효과               |
-| react-query      | Data Fetching 관리            |
-| react-rotuer-dom | 라우팅 구현                   |
-| react-hook-form  | 입력 폼 상태 관리 |
+| 모듈명           | 용도               |
+| ---------------- | ------------------ |
+| axios            | 서버 통신          |
+| framer-motion    | 애니메이션 효과    |
+| react-query      | Data Fetching 관리 |
+| react-rotuer-dom | 라우팅 구현        |
+| react-hook-form  | 입력 폼 상태 관리  |
 
 <br>
 
@@ -52,15 +52,9 @@
 
 ### Movie 페이지
 
-
-
 ### TV 페이지
 
-
-
 ### Search 페이지
-
-
 
 ### 주요 기능
 

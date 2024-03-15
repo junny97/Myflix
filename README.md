@@ -52,15 +52,15 @@
 
 ### Movie 페이지
 
-<img src="gif/Movie.gif" alt="메인페이지"/>
+
 
 ### TV 페이지
 
-<img src="gif/TV.gif" alt="메인페이지"/>
+
 
 ### Search 페이지
 
-<img src="gif/Search.gif" alt="메인페이지"/>
+
 
 ### 주요 기능
 

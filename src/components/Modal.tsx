@@ -32,6 +32,7 @@ export default function Modal() {
   const location = useLocation();
   const id = new URLSearchParams(location.search).get('id');
   const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
+
   useEffect(() => {
     setIsModalOpen(id ? true : false);
   }, [location]);

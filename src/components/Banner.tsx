@@ -44,7 +44,9 @@ export default function Banner({ section, content }: IBannerProps) {
             </Date>
             <Rating>
               {content.vote_average !== null
-                ? t('label.rating') + ': ⭐' + content.vote_average.toFixed(2)
+                ? t('label.rating') +
+                  ': ⭐' +
+                  Math.round(content.vote_average * 10) / 10
                 : t('label.rating') + ': ⭐' + t('label.none')}
             </Rating>
           </DateAndRatingContainer>

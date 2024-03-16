@@ -148,7 +148,9 @@ function Slider({ section, title, list, zindex }: ISliderProps) {
                         </CardDate>
                         <CardRating>
                           {content.vote_average
-                            ? t('label.rating') + ': ⭐' + content.vote_average
+                            ? t('label.rating') +
+                              ': ⭐' +
+                              Math.round(content.vote_average * 10) / 10
                             : t('label.rating') + ': ⭐' + t('label.none')}
                         </CardRating>
                       </CardInfoDateAndRating>

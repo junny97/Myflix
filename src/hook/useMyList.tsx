@@ -7,11 +7,10 @@ type useListType = [
   (id: number) => void,
   (id: number) => void
 ];
-
+const MAX_NUM_OF_LIST = 8;
 function useMyList(section: string): useListType {
   const [myMovie, setMyMovie] = useRecoilState<number[]>(myMovieAtom);
   const [myTv, setMyTv] = useRecoilState<number[]>(myTvAtom);
-  const MAX_NUM_OF_LIST = 8;
 
   const checkIsNewContent = (id: number): boolean => {
     return section === 'movie'

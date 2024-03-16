@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { IContent } from '../interface';
 import { useTranslation } from 'react-i18next';
-import { makeImagePath, getImgPath } from '../utils/utilsFn';
+import { getImgPath } from '../utils/utilsFn';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMatch, useNavigate } from 'react-router-dom';
@@ -44,7 +44,7 @@ export default function Banner({ section, content }: IBannerProps) {
             </Date>
             <Rating>
               {content.vote_average !== null
-                ? t('label.rating') + ': ⭐' + content.vote_average
+                ? t('label.rating') + ': ⭐' + content.vote_average.toFixed(2)
                 : t('label.rating') + ': ⭐' + t('label.none')}
             </Rating>
           </DateAndRatingContainer>

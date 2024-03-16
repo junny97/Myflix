@@ -49,9 +49,8 @@ function Slider({ section, title, list, zindex }: ISliderProps) {
 
   const decreaseIndex = () => {
     if (list) {
-      console.log('decrease 문 진입');
       if (moving) return;
-      console.log('decrease 누름');
+
       setIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
       setMoving(true);
       setMovingBack(true);
@@ -60,9 +59,7 @@ function Slider({ section, title, list, zindex }: ISliderProps) {
 
   const increaseIndex = () => {
     if (list) {
-      console.log('increase 문 진입');
       if (moving) return;
-      console.log('increase 누름');
       setIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
       setMoving(true);
       setIsPrevBtnDisabled(false);
